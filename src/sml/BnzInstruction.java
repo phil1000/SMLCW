@@ -25,6 +25,6 @@ public class BnzInstruction extends Instruction {
 
 	@Override
 	public String toString() {
-		return super.toString() + " register " + register;
+		return super.toString() + " register " + register + " label = " + labelL2;
 	}
 }

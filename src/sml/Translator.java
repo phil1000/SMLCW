@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.lang.reflect.*;
 
 /*
  * The translator of a <b>S</b><b>M</b>al<b>L</b> program.
@@ -81,7 +82,24 @@ public class Translator {
 		if (line.equals(""))
 			return null;
 
+		// the name of the instruction to call is the initcapped incoming label suffixed with Instruction
+		// i.e. add becomes AddInstruction and mul becomes MulInstruction and so on
 		String ins = scan();
+		char c = ins.charAt(0);
+		c=Character.toUpperCase(c);
+		StringBuffer buf = new StringBuffer(ins);
+		buf.setCharAt(0,c);
+		String newString = buf.toString( );
+		newString = newString + "Instruction.class";
+		System.out.println(newString);
+		
+		try {
+			Class myClass = Class.forName(newString);
+			System.out.println("class " + newString + " was found");
+		} catch (ClassNotFoundException ex ) {
+			System.out.println("class " + newString + " not found");
+		}
+		/*System.out.println("ins="+newString+"Instruction");
 		switch (ins) {
 		case "add":
 			r = scanInt();
@@ -115,9 +133,8 @@ public class Translator {
 			r = scanInt();
 			s1 = scanInt();
 			return new LinInstruction(label, r, s1);
-		}
+		}*/
 
-		// You will have to write code here for the other instructions.
 
 		return null;
 	}
