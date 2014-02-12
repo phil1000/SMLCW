@@ -1,13 +1,15 @@
-fo lin 0 88
-f1 lin 1 43
+fo lin 0 10
+f1 lin 1 5
 f2 add 2 0 1
-f3 lin 3 999
-f4 lin 4 201
+f3 lin 3 20
+f4 lin 4 10
 f5 add 5 3 4
 f6 sub 6 3 4
 f7 sub 7 0 1
 f8 mul 8 0 1
 f9 div 9 3 1
 f10 out 9
-
-
+f11 lin 10 1
+f12 sub 9 9 10
+f13 out 9
+f14 bnz 9 f10
