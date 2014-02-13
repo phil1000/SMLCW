@@ -90,15 +90,28 @@ public class Translator {
 		StringBuffer buf = new StringBuffer(ins);
 		buf.setCharAt(0,c);
 		String newString = buf.toString( );
-		newString = newString + "Instruction.class";
-		System.out.println(newString);
+		newString = "sml." + newString + "Instruction";
+		//System.out.println(newString);
 		
+		Class myClass = null;
 		try {
-			Class myClass = Class.forName(newString);
-			System.out.println("class " + newString + " was found");
+			myClass = Class.forName(newString);
+			//System.out.println("class " + newString + " was found");
+			//Constructor myConstructor = myClass.getConstructor(String.class, Integer.TYPE); // need to amend this
+			Constructor myConstructor = myClass.getConstructor(String.class, String.class);
+			return (Instruction) myConstructor.newInstance(label, ins);
 		} catch (ClassNotFoundException ex ) {
 			System.out.println("class " + newString + " not found");
+		} catch (NoSuchMethodException ex ) {
+			System.out.println("method not found");
+		} catch (InstantiationException ex ) {
+			System.out.println("could not instantiate");
+		} catch (InvocationTargetException ex ) {
+			System.out.println("could not invocate target");
+		} catch (IllegalAccessException ex ) {
+			System.out.println("illegal access exception");
 		}
+		
 		/*System.out.println("ins="+newString+"Instruction");
 		switch (ins) {
 		case "add":
