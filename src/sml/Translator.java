@@ -3,6 +3,8 @@ package sml;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Collections;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.lang.reflect.*;
@@ -74,16 +76,16 @@ public class Translator {
 	// removed. Translate line into an instruction with label label
 	// and return the instruction
 	public Instruction getInstruction(String label) {
-		int s1; // Possible operands of the instruction
-		int s2;
-		int r;
-		int x;
 
+		Object[] parameterList = new Object[10]; // This array used to store int or string parameters to be passed to the constructor
+		int parmCount=0;
+		
 		if (line.equals(""))
 			return null;
 
-		// the name of the instruction to call is the initcapped incoming label suffixed with Instruction
-		// i.e. add becomes AddInstruction and mul becomes MulInstruction and so on
+		// the name of the instruction to call is the initcapped incoming label with a postfix of Instruction
+		// also need to prefix who name with the package name
+		// i.e. add becomes sml.AddInstruction and mul becomes sml.MulInstruction and so on
 		String ins = scan();
 		char c = ins.charAt(0);
 		c=Character.toUpperCase(c);
@@ -96,14 +98,40 @@ public class Translator {
 		Class myClass = null;
 		try {
 			myClass = Class.forName(newString);
-			//System.out.println("class " + newString + " was found");
-			//Constructor myConstructor = myClass.getConstructor(String.class, Integer.TYPE); // need to amend this
-			Constructor myConstructor = myClass.getConstructor(String.class, String.class);
-			return (Instruction) myConstructor.newInstance(label, ins);
+			
+			Constructor[] constructors = myClass.getConstructors();
+			Constructor myConstructor = constructors[1]; // ignoring the first constructor
+			Class[] parameterTypes = myConstructor.getParameterTypes();
+			parmCount=parameterTypes.length;
+			for (int j=1;j<parameterTypes.length;j++) { // start from 1 as first item is label and already stripped off
+				Class tempClass = parameterTypes[j];
+				if (tempClass.getName().equals("java.lang.String")) {
+					String parm = scan();
+					parameterList[j-1]=parm;
+				} else if (tempClass.getName().equals("int")) {
+					Integer parm = scanInt();
+					parameterList[j-1]=parm;
+				}
+			}
+			
+			if (parmCount==2) {
+				return (Instruction) myConstructor.newInstance(label, 
+						(parameterList[0] instanceof String) ? (String) parameterList[0] : (int) parameterList[0]);
+			}
+			if (parmCount==3) {
+				return (Instruction) myConstructor.newInstance(label, 
+						(parameterList[0] instanceof String) ? (String) parameterList[0] : (int) parameterList[0], 
+								(parameterList[1] instanceof String) ? (String) parameterList[1] : (int) parameterList[1]);
+			}
+			if (parmCount==4) {
+				return (Instruction) myConstructor.newInstance(label, 
+						(parameterList[0] instanceof String) ? (String) parameterList[0] : (int) parameterList[0], 
+								(parameterList[1] instanceof String) ? (String) parameterList[1] : (int) parameterList[1],
+										(parameterList[2] instanceof String) ? (String) parameterList[2] : (int) parameterList[2]);
+			}
+			
 		} catch (ClassNotFoundException ex ) {
 			System.out.println("class " + newString + " not found");
-		} catch (NoSuchMethodException ex ) {
-			System.out.println("method not found");
 		} catch (InstantiationException ex ) {
 			System.out.println("could not instantiate");
 		} catch (InvocationTargetException ex ) {
@@ -112,43 +140,6 @@ public class Translator {
 			System.out.println("illegal access exception");
 		}
 		
-		/*System.out.println("ins="+newString+"Instruction");
-		switch (ins) {
-		case "add":
-			r = scanInt();
-			s1 = scanInt();
-			s2 = scanInt();
-			return new AddInstruction(label, r, s1, s2);
-		case "sub":
-			r = scanInt();
-			s1 = scanInt();
-			s2 = scanInt();
-			return new SubInstruction(label, r, s1, s2);
-		case "mul":
-			r = scanInt();
-			s1 = scanInt();
-			s2 = scanInt();
-			return new MulInstruction(label, r, s1, s2);
-		case "div":
-			r = scanInt();
-			s1 = scanInt();
-			s2 = scanInt();
-			return new DivInstruction(label, r, s1, s2);
-		case "out":
-			s1 = scanInt();
-			return new OutInstruction(label, s1);
-		case "bnz":
-			s1 = scanInt();
-			String L2 = scan();
-			return new BnzInstruction(label, s1, L2);
-			
-		case "lin":
-			r = scanInt();
-			s1 = scanInt();
-			return new LinInstruction(label, r, s1);
-		}*/
-
-
 		return null;
 	}
 

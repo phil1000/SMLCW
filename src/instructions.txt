@@ -13,3 +13,5 @@ f11 lin 10 1
 f12 sub 9 9 10
 f13 out 9
 f14 bnz 9 f10
+f15 lin 11 577777
+f16 lin 12 99999
