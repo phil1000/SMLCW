@@ -2,18 +2,41 @@ package smlTests;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import sml.*;
+
+/**
+ * 
+ * @author Shahin/Phil
+ *
+ * Note: the member fields of Machine need to be made temporarily 
+ * accessible from this test class by changing 'private' to 'public'. 
+ * They are 'Labels labels', 'ArrayList<Instruction> prog', 
+ * 'Registers registers', 'int pc'. 
+ * 
+ */
 public class MachineTest {
+
+	private Machine machine;
+	private 	AddInstruction instruction;
 
 	@Before
 	public void setUp() throws Exception {
+		machine = new Machine();
+		String label = "label for test";
+		String op = "op for test";
+		instruction = new AddInstruction(label, op);
+		
 	}
 
 	@After
 	public void tearDown() throws Exception {
+		machine = null;
 	}
 
 	@Test
@@ -21,10 +44,6 @@ public class MachineTest {
 		fail("Not yet implemented");
 	}
 
-	@Test
-	public void testMain() {
-		fail("Not yet implemented");
-	}
 
 	@Test
 	public void testToString() {
@@ -43,7 +62,10 @@ public class MachineTest {
 
 	@Test
 	public void testGetProg() {
-		fail("Not yet implemented");
+		machine.prog.add(instruction);
+		Instruction actualOutput = machine.getProg().get(0);
+		Instruction expectedOutput = instruction; 
+		assertEquals(expectedOutput,actualOutput);
 	}
 
 	@Test
@@ -53,7 +75,10 @@ public class MachineTest {
 
 	@Test
 	public void testGetPc() {
-		fail("Not yet implemented");
+		machine.setPc(10);
+		int expectedOutput = 10;
+		int actualOutput = machine.getPc(); 
+		assertEquals(expectedOutput,actualOutput);
 	}
 
 	@Test
