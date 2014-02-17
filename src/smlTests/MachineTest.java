@@ -24,6 +24,7 @@ public class MachineTest {
 
 	private Machine machine;
 	private 	AddInstruction instruction;
+	private Translator translator; 
 
 	@Before
 	public void setUp() throws Exception {
@@ -37,6 +38,7 @@ public class MachineTest {
 	@After
 	public void tearDown() throws Exception {
 		machine = null;
+		instruction = null;
 	}
 
 	@Test
@@ -51,18 +53,31 @@ public class MachineTest {
 	}
 
 	@Test
-	public void testExecute() {
-		fail("Not yet implemented");
+	public void testExecute() {		
+		translator = new Translator("instructionsTestAdd.txt");
+		translator.readAndTranslate(machine.getLabels(), machine.getProg());
+		machine.execute();
+		int actualOutput = instruction.result;
+		int expectedOutput = (88+43);
+		assertEquals(expectedOutput,actualOutput);
 	}
 
 	@Test
 	public void testGetLabels() {
-		fail("Not yet implemented");
+		translator = new Translator("instructionsTests1.txt");
+		translator.readAndTranslate(machine.getLabels(), machine.getProg());
+		machine.execute();
+		String actualOutput = "";
+		for (int i=0;i<machine.labels.labels.size();i++) {
+			actualOutput += machine.labels.labels.get(i);
+		}
+		String expectedOutput = "fof1f2f3f4f5f6f7f8f9f10f11f12";
+		assertEquals(expectedOutput,actualOutput);
 	}
 
 	@Test
 	public void testGetProg() {
-		machine.prog.add(instruction);
+		machine.getProg().add(instruction);
 		Instruction actualOutput = machine.getProg().get(0);
 		Instruction expectedOutput = instruction; 
 		assertEquals(expectedOutput,actualOutput);
