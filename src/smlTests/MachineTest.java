@@ -23,22 +23,17 @@ import sml.*;
 public class MachineTest {
 
 	private Machine machine;
-	private 	AddInstruction instruction;
+//	private 	AddInstruction instruction;
 	private Translator translator; 
 
 	@Before
 	public void setUp() throws Exception {
-		machine = new Machine();
-		String label = "label for test";
-		String op = "op for test";
-		instruction = new AddInstruction(label, op);
-		
+		machine = new Machine();		
 	}
 
 	@After
 	public void tearDown() throws Exception {
 		machine = null;
-		instruction = null;
 	}
 
 	@Test
@@ -57,7 +52,8 @@ public class MachineTest {
 		translator = new Translator("instructionsTestAdd.txt");
 		translator.readAndTranslate(machine.getLabels(), machine.getProg());
 		machine.execute();
-		int actualOutput = instruction.result;
+		System.out.println(machine.getRegisters() + ".");
+		int actualOutput = machine.getRegisters().registers[2];
 		int expectedOutput = (88+43);
 		assertEquals(expectedOutput,actualOutput);
 	}
