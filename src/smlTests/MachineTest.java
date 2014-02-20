@@ -3,6 +3,7 @@ package smlTests;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -76,16 +77,17 @@ public class MachineTest {
 	}
 
 	/**
-	 * The test creates an 'instruction' object and directly adds it to the 
-	 * 'prog' arrayList, which holds instruction objects. The method getProg()
-	 * should return the arrayList of instructions currently held in prog. 
+	 * The test creates an 'AddInstruction' object (which some random arguments
+	 * for the constructor) and directly adds it to the 'prog' arrayList, 
+	 * which holds instruction objects. The method getProg() should return 
+	 * the arrayList of instructions currently held in prog. 
 	 * To test this, the instruction which has just been added (and should 
 	 * therefore be stored at position 0) is compared with what the method 
 	 * getProg() returns.   
 	 */
 	@Test
 	public void testGetProg() {
-		Instruction instruction = null;
+		Instruction instruction = new AddInstruction("string",1,2,3);
 		machine.getProg().add(instruction);
 		Instruction actualOutput = machine.getProg().get(0);
 		Instruction expectedOutput = instruction; 
@@ -150,14 +152,51 @@ public class MachineTest {
 		assertEquals(expectedOutput,actualOutput);
 	}
 
+	/**
+	 * This setter is created by Lombok @Data, so it must be a simple
+	 * 'this.labels = labels'. First I create an object of the Labels 
+	 * class to which I add two label strings via Labels' addLabel() 
+	 * method. Then I test that the method setLabels() works by setting
+	 * Machine's member field labels with the newly created 'labels' object.
+	 * I have to use Machine's getLabels() method to return that which
+	 * setLabels(labels) has assigned. The final comparison is made between 
+	 * the arrayList of strings of Labels' labels. 
+	 */
 	@Test
 	public void testSetLabels() {
-		fail("Not yet implemented");
+		Labels labels = new Labels();
+		labels.addLabel("fo");
+		labels.addLabel("f1");
+		machine.setLabels(labels);
+		Labels actualLabels = machine.getLabels();
+		ArrayList<String> actualOutput = actualLabels.labels;
+		
+		List<String> expectedList = new ArrayList<>();
+		expectedList.add("fo");
+		expectedList.add("f1");
+		List<String> expectedOutput = expectedList;
+				
+		assertEquals(expectedOutput,actualOutput);
 	}
 
+	/**
+	 * A 'prog' is an arrayList of 'instructions'. So, first this test 
+	 * creates two instructions, tehn adds them directly to an arrayList. 
+	 * The setProg() method is tested with this arrayList, which should 
+	 * now be assigned to the prog member field of Machine. The test
+	 * requires that a second method of Machine works as well (getProg()).
+	 */
 	@Test
 	public void testSetProg() {
-		fail("Not yet implemented");
+		Instruction instruction1 = new AddInstruction("string",1,2,3);
+		Instruction instruction2 = new AddInstruction("string",4,5,6);
+		ArrayList<Instruction> instructions = new ArrayList<>();
+		instructions.add(instruction1);
+		instructions.add(instruction2);
+		machine.setProg(instructions);
+		ArrayList<Instruction> actualOutput = machine.getProg();
+		ArrayList<Instruction> expectedOutput = instructions; 
+		assertEquals(expectedOutput,actualOutput);
 	}
 
 	@Test
