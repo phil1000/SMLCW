@@ -58,16 +58,20 @@ public class MachineTest {
 		assertEquals(expectedOutput,actualOutput);
 	}
 
+	/**
+	 * Testing getLabels() by concatenating the labels that getLAbels()
+	 * returns from the input file 'instructionsTestAdd.txt' and 
+	 * comparing with the string that this should create. 
+	 */
 	@Test
 	public void testGetLabels() {
-		translator = new Translator("instructionsTests1.txt");
+		translator = new Translator("instructionsTestAdd.txt");
 		translator.readAndTranslate(machine.getLabels(), machine.getProg());
-		machine.execute();
 		String actualOutput = "";
-		for (int i=0;i<machine.labels.labels.size();i++) {
+		for (int i=0;i<machine.getLabels().labels.size();i++) {
 			actualOutput += machine.labels.labels.get(i);
 		}
-		String expectedOutput = "fof1f2f3f4f5f6f7f8f9f10f11f12";
+		String expectedOutput = "fof1f2f3";
 		assertEquals(expectedOutput,actualOutput);
 	}
 
