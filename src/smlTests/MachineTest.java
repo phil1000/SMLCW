@@ -73,15 +73,59 @@ public class MachineTest {
 
 	@Test
 	public void testGetProg() {
+		Instruction instruction = null;
 		machine.getProg().add(instruction);
 		Instruction actualOutput = machine.getProg().get(0);
 		Instruction expectedOutput = instruction; 
 		assertEquals(expectedOutput,actualOutput);
 	}
 
+	/**
+	 * Testing getRegisters() in two ways: First, the creation of registers is performed by Machine's execute()
+	 * method which in the absence of input from an instructions file, initialises the register int array in 
+	 * the Registers class to 32 0s. So, I first iterate through the array that getRegiester() should return  
+	 * if it works, and I prove this by testing that there are indeed 32 0s. The second part of the test is 
+	 * designed to show that getRegisters() works when a non-empty instructions file has been input as well. 
+	 * The two tests are not really testing different things, but it's just reassuring to see both work! 
+	 */
 	@Test
 	public void testGetRegisters() {
-		fail("Not yet implemented");
+		System.out.println("(before input of instructions file, testGetRegisters() gives: "+machine.getRegisters()+")");	
+
+//		translator = new Translator("emptyFileTest.txt"); //same thing happens if this file is input
+//		translator = new Translator("OneLabelOnlyFileTest.txt");//same thing happens if this file is input
+		machine.execute();
+		int[] result = machine.getRegisters().registers;
+		int noOfRegisters = 0;
+		for (int i=0;i<result.length;i++) {
+			if (result[i] == 0) {
+				noOfRegisters += 1;
+			}
+		}
+		int actualOutput1 = noOfRegisters;
+		int expectedOutput1 = 32;
+		System.out.println("(after input of empty instructions file, testGetRegisters() gives: "+machine.getRegisters()+")");	
+		assertEquals(expectedOutput1,actualOutput1);
+
+		translator = new Translator("instructionsTestAdd.txt");
+		translator.readAndTranslate(machine.getLabels(), machine.getProg());
+
+		machine.execute();
+		
+		int countValuesInRegisters = 0;
+		
+		result = machine.getRegisters().registers;
+		for (int i=0;i<result.length;i++) {
+			countValuesInRegisters += result[i];
+		}
+		
+		int actualOutput2 = countValuesInRegisters;
+		int expectedOutput2 = (88+43+131);
+		
+		System.out.println("(after input of the instructionsTestAdd.txt file, testGetRegisters() gives: "+machine.getRegisters()+")");	
+		
+		assertEquals(expectedOutput2,actualOutput2);
+
 	}
 
 	@Test
