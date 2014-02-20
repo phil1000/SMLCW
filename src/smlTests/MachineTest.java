@@ -82,7 +82,6 @@ public class MachineTest {
 	 * To test this, the instruction which has just been added (and should 
 	 * therefore be stored at position 0) is compared with what the method 
 	 * getProg() returns.   
-	 *   
 	 */
 	@Test
 	public void testGetProg() {
@@ -122,9 +121,7 @@ public class MachineTest {
 
 		translator = new Translator("instructionsTestAdd.txt");
 		translator.readAndTranslate(machine.getLabels(), machine.getProg());
-
 		machine.execute();
-		
 		int countValuesInRegisters = 0;
 		
 		result = machine.getRegisters().registers;
@@ -141,6 +138,10 @@ public class MachineTest {
 
 	}
 
+	/**
+	 * Very simple test which effectively involves testing both 
+	 * setPc() as well as getPc().
+	 */
 	@Test
 	public void testGetPc() {
 		machine.setPc(10);
