@@ -71,6 +71,15 @@ public class MachineTest {
 		assertEquals(expectedOutput,actualOutput);
 	}
 
+	/**
+	 * The test creates an 'instruction' object and directly adds it to the 
+	 * 'prog' arrayList, which holds instruction objects. The method getProg()
+	 * should return the arrayList of instructions currently held in prog. 
+	 * To test this, the instruction which has just been added (and should 
+	 * therefore be stored at position 0) is compared with what the method 
+	 * getProg() returns.   
+	 *   
+	 */
 	@Test
 	public void testGetProg() {
 		Instruction instruction = null;
@@ -83,10 +92,10 @@ public class MachineTest {
 	/**
 	 * Testing getRegisters() in two ways: First, the creation of registers is performed by Machine's execute()
 	 * method which in the absence of input from an instructions file, initialises the register int array in 
-	 * the Registers class to 32 0s. So, I first iterate through the array that getRegiester() should return  
-	 * if it works, and I prove this by testing that there are indeed 32 0s. The second part of the test is 
-	 * designed to show that getRegisters() works when a non-empty instructions file has been input as well. 
-	 * The two tests are not really testing different things, but it's just reassuring to see both work! 
+	 * the Registers class to 32 0s. So, I first iterate through the array that getRegister() should return  
+	 * if it works, and I prove this by testing that there are indeed 32 0s in the array. The second part of the 
+	 * test is designed to show that getRegisters() works when a non-empty instructions file has been input as 
+	 * well. The two tests are not really testing different things, but it's just reassuring to see both work! 
 	 */
 	@Test
 	public void testGetRegisters() {
