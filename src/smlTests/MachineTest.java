@@ -40,12 +40,16 @@ public class MachineTest {
 		machine = null;
 	}
 
+	/**
+	 * not sure about this test yet.
+	 */
 	@Test
 	public void testHashCode() {
-		Machine machine1 = new Machine();  // equals and hashCode check name field value
-		Person y = new Person("Foo Bar");
-		Assert.assertTrue(x.equals(y) && y.equals(x));
-		Assert.assertTrue(x.hashCode() == y.hashCode());;
+		Machine machine1 = new Machine();
+		Machine machine2 = new Machine();
+		machine1 = machine2;
+		assertTrue(machine1.equals(machine2) && machine2.equals(machine1));
+		assertTrue(machine1.hashCode() == machine2.hashCode());
 	}
 
 
