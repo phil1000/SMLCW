@@ -11,22 +11,20 @@ import lombok.Data;
 public class Machine {
 	// The labels in the SML program, in the order in which
 	// they appear (are defined) in the program
-	// (temporarily 'private->public' for JUnit tests to access.) 
-	Labels labels;
+// 'public' for JUnit only, otherwise 'private'
+	public Labels labels;
 
 	// The SML program, consisting of prog.size() instructions, each
 	// of class Instruction (or one of its subclasses)
-	// (temporarily 'private->public' for JUnit tests to access.)
-	public ArrayList<Instruction> prog;
+// 'public' for JUnit only, otherwise 'private'
+	private ArrayList<Instruction> prog;
 
 	// The registers of the SML machine
-	// (temporarily 'private->public' for JUnit tests to access.)
-	Registers registers;
+	private Registers registers;
 
 	// The program counter; it contains the index (in prog) of
 	// the next instruction to be executed.
-	// (temporarily 'private->public' for JUnit tests to access.)
-	int pc;
+	private int pc;
 
 	{
 		labels = new Labels();
