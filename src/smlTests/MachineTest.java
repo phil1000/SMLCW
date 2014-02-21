@@ -15,10 +15,11 @@ import sml.*;
  * 
  * @author Shahin/Phil
  *
- * Note: the member fields of Machine need to be made temporarily 
- * accessible from this test class by changing 'private' to 'public'. 
- * They are 'Labels labels', 'ArrayList<Instruction> prog', 
- * 'Registers registers', 'int pc'. 
+ * Note: only execute() and toString() are not written by
+ * Lombok, so I'm not sure that I should be writing tests for 
+ * any methods other than these two. I have written anyway, 
+ * if only for practice and to get a clearer understanding of
+ * how the program is meant to work.  
  * 
  */
 public class MachineTest {
@@ -48,6 +49,9 @@ public class MachineTest {
 		fail("Not yet implemented");
 	}
 
+	/**
+	 * Testing execute() which must 
+	 */
 	@Test
 	public void testExecute() {		
 		translator = new Translator("instructionsTestAdd.txt");
@@ -181,10 +185,10 @@ public class MachineTest {
 
 	/**
 	 * A 'prog' is an arrayList of 'instructions'. So, first this test 
-	 * creates two instructions, tehn adds them directly to an arrayList. 
-	 * The setProg() method is tested with this arrayList, which should 
-	 * now be assigned to the prog member field of Machine. The test
-	 * requires that a second method of Machine works as well (getProg()).
+	 * creates two instructions, then adds them directly to an arrayList. 
+	 * If setProg() works, it should assign this arrayList, which is passed 
+	 * to it as an argument, to the prog member field of Machine. (The test
+	 * relies on a second method of Machine working as well (getProg()).
 	 */
 	@Test
 	public void testSetProg() {
@@ -199,14 +203,49 @@ public class MachineTest {
 		assertEquals(expectedOutput,actualOutput);
 	}
 
+	/**
+	 * setRegisters(Registers) assigns the Registers to the member field 
+	 * of Machine class. The Registers class contains an int array that
+	 * are the registers. This test first creates the registers int array 
+	 * which is initialised by its constructor to contain 32 positions 
+	 * with 0. Two ints are added to it. The expected output is the same 
+	 * int array and is compared with the assigned Registers using 
+	 * getRegisters(). 
+	 */
 	@Test
 	public void testSetRegisters() {
-		fail("Not yet implemented");
+		Registers registers = new Registers();
+		registers.registers[1] = 1;
+		registers.registers[2] = 3;
+		machine.setRegisters(registers);
+		int[] actualOutput = machine.getRegisters().registers;
+				
+		int[] expectedArray = new int[32];
+		for (int i=0;i<expectedArray.length;i++) {
+			expectedArray[i] = 0;
+		}
+		expectedArray[1] = 1;
+		expectedArray[2] = 3;
+		int[] expectedOutput = expectedArray;
+		
+		assertEquals(expectedOutput,actualOutput);
 	}
 
+	/*
+	 * Trivial tests of setters and getters but for the sake of completion.
+	 * Kept simple as possible this time. Checking value of the newly 
+	 * assigned value of 'pc' using the second method of getPc().
+	 */
 	@Test
-	public void testSetPc() {
-		fail("Not yet implemented");
+	public void testSetPc() {		
+		machine.setPc(4);
+		int actualOutput1 = machine.getPc();
+		machine.setPc(10);
+		int actualOutput2 = machine.getPc();
+		int expectedOutput1 = 4;
+		int expectedOutput2 = 10;
+		assertEquals(expectedOutput1,actualOutput1);
+		assertEquals(expectedOutput2,actualOutput2);
 	}
 
 	@Test
