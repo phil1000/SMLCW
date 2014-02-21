@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import junit.framework.Assert;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,7 +42,10 @@ public class MachineTest {
 
 	@Test
 	public void testHashCode() {
-		fail("Not yet implemented");
+		Machine machine1 = new Machine();  // equals and hashCode check name field value
+		Person y = new Person("Foo Bar");
+		Assert.assertTrue(x.equals(y) && y.equals(x));
+		Assert.assertTrue(x.hashCode() == y.hashCode());;
 	}
 
 
@@ -248,6 +253,7 @@ public class MachineTest {
 		assertEquals(expectedOutput2,actualOutput2);
 	}
 
+	
 	@Test
 	public void testEqualsObject() {
 		fail("Not yet implemented");
@@ -258,9 +264,15 @@ public class MachineTest {
 		fail("Not yet implemented");
 	}
 
+	/**
+	 * This tests that the Machine constructor works!
+	 * It does not take any parameters so there are no
+	 * assignments to check. A Machine object is created
+	 * in the setUp(), and used throughout the tests in
+	 * MachineTest, so it is not necessary to do further 
+	 * testing here I think. 
+	 */
 	@Test
-	public void testMachine() {
-		fail("Not yet implemented");
-	}
+	public void testMachine() {}
 
 }
