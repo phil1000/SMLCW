@@ -282,7 +282,7 @@ public class MachineTest {
 		System.out.println("machine1 pc after rAT: "+machine1.getPc());
 		System.out.println("machine2 pc after rAT: "+machine2.getPc());
 		
-		assertTrue(machine1.equals(machine2) && machine2.equals(machine1));
+		assertTrue(machine1.equals(machine2) && machine2.equals(machine1));// THE TEST FAILS HERE BUT I DON'T THINK IT SHOULD !!
 
 		Instruction instruction = new AddInstruction("string",1,2,3);
 		machine1.getProg().add(instruction);
