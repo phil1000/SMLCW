@@ -242,39 +242,60 @@ public class MachineTest {
 	/**
 	 * THIS TEST REMAINS TO BE RESOLVED....
 	 * 
-	 * The first of the 3 asserts is passing but only because it 
-	 * is set to assertFalse. If the equals() method was correctly
-	 * comparing the two machine objects according to their contents
-	 * rather than their memory addresses, then they should be 
-	 * equal. So this has comletely confused me...!!
+	 * But surely the first assert (assertFalse) should fail !? 
+	 * If the equals() method is comparing the two machine objects 
+	 * according to their contents rather than their memory addresses, 
+	 * then they should be equal. 
+	 * So this has completely confused me!
 	 * 
 	 */
 	@Test
 	public void testEqualsObject() {
 		Machine machine1 = new Machine();
 		Machine machine2 = new Machine();
-		translator = new Translator("instructionsTestAdd.txt");
-		translator.readAndTranslate(machine1.getLabels(),machine1.getProg());
+
+		System.out.println("machine1 labels before readAndTranslate: "+machine1.getLabels().labels);
+		System.out.println("machine2 labels before readAndTranslate: "+machine2.getLabels().labels);
+//		System.out.println("machine1, a line of instruction from prog before readAndTranslate: "+machine1.getProg().get(0).toString());//This would give IndexOutOfBoundsException
+//		System.out.println("machine2, a line of instruction from prog before readAndTranslate: "+machine2.getProg().get(0).toString());//This would give IndexOutOfBoundsException		
+//		System.out.println("machine1 registers before readAndTranslate: "+machine1.getRegisters().registers[0]);//This would give IndexOutOfBoundsException
+//		System.out.println("machine2 registers before readAndTranslate: "+machine2.getRegisters().registers[0]);//This would give IndexOutOfBoundsException
+		System.out.println("machine1 pc before readAndTranslate: "+machine1.getPc());
+		System.out.println("machine2 pc before readAndTranslate: "+machine2.getPc());
 		
+		translator = new Translator("instructionsTestAdd.txt");		
+		translator.readAndTranslate(machine1.getLabels(),machine1.getProg());
 		translator = new Translator("instructionsTestAdd.txt");
 		translator.readAndTranslate(machine2.getLabels(),machine2.getProg());
-		assertFalse(machine1.equals(machine2) && machine2.equals(machine1));
+
+		System.out.println();
+		System.out.println("machine1 labels after rAT: "+machine1.getLabels().labels);
+		System.out.println("machine2 labels after rAT: "+machine2.getLabels().labels);
+		System.out.println("machine1, a line of instruction from prog after rAT: "+machine1.getProg().get(0).toString());
+		System.out.println("machine2, a line of instruction from prog after rAT: "+machine2.getProg().get(0).toString());		
+		//so, translator.readAndTranslate() sets the machine's labels and prog.
+		machine1.execute();
+		machine2.execute();
+		//so, machine.execute() sets the machine's pc and registers.
+		System.out.println("machine1 registers after rAT: "+machine1.getRegisters().registers[0]);
+		System.out.println("machine2 registers after rAT: "+machine2.getRegisters().registers[0]);
+		System.out.println("machine1 pc after rAT: "+machine1.getPc());
+		System.out.println("machine2 pc after rAT: "+machine2.getPc());
+		
+		assertTrue(machine1.equals(machine2) && machine2.equals(machine1));
 
 		Instruction instruction = new AddInstruction("string",1,2,3);
 		machine1.getProg().add(instruction);
 		assertFalse(machine1.equals(machine2) && machine2.equals(machine1));
-
-
+		
 		machine1.setPc(1);
 		machine2.setPc(2);
-		System.out.println("machine1: "+machine1.getPc());
-		System.out.println("machine2: "+machine2.getPc());
+		System.out.println("machine1's pc is now: "+machine1.getPc());
+		System.out.println("machine2's pc is now: "+machine2.getPc());
 		assertFalse(machine1.equals(machine2) && machine2.equals(machine1));
 
 		machine1 = machine2;
 		assertTrue(machine1.equals(machine2) && machine2.equals(machine1));
-	
-	
 	}
 	
 	/**
