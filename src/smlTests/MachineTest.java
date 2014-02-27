@@ -4,9 +4,11 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 import sml.*;
 
 /**
@@ -23,17 +25,21 @@ import sml.*;
 public class MachineTest {
 
 	private Machine machine;
+	private SubMachineTest subMachineTest;
+	
 //	private 	AddInstruction instruction;
 	private Translator translator; 
 
 	@Before
 	public void setUp() throws Exception {
-		machine = new Machine();		
+		machine = new Machine();	
+		subMachineTest = new SubMachineTest();	
 	}
 
 	@After
 	public void tearDown() throws Exception {
 		machine = null;
+		subMachineTest = null;
 	}
 
 	/**
@@ -235,49 +241,22 @@ public class MachineTest {
 		assertEquals(expectedOutput2,actualOutput2);
 	}
 	
-	/**
-	 * THIS TEST REMAINS TO BE RESOLVED....
-	 * 
-	 * But surely the first assert (assertFalse) should fail !? 
-	 * If the equals() method is comparing the two machine objects 
-	 * according to their contents rather than their memory addresses, 
-	 * then they should be equal. 
-	 * So this has completely confused me!
-	 * 
+	/** 
+	 * Tests that two machine objects are the same, according to 
+	 * Lombok's comparison of all non-static, non-transient member
+	 * fields. (In order for this to work though, Lombok @Data had 
+	 * to be added to Labels, Registers and Instruction.)
 	 */
 	@Test
 	public void testEqualsObject() {
 		Machine machine1 = new Machine();
-		Machine machine2 = new Machine();
-
-		System.out.println("machine1 labels before readAndTranslate: "+machine1.getLabels().labels);
-		System.out.println("machine2 labels before readAndTranslate: "+machine2.getLabels().labels);
-//		System.out.println("machine1, a line of instruction from prog before readAndTranslate: "+machine1.getProg().get(0).toString());//This would give IndexOutOfBoundsException
-//		System.out.println("machine2, a line of instruction from prog before readAndTranslate: "+machine2.getProg().get(0).toString());//This would give IndexOutOfBoundsException		
-//		System.out.println("machine1 registers before readAndTranslate: "+machine1.getRegisters().registers[0]);//This would give IndexOutOfBoundsException
-//		System.out.println("machine2 registers before readAndTranslate: "+machine2.getRegisters().registers[0]);//This would give IndexOutOfBoundsException
-		System.out.println("machine1 pc before readAndTranslate: "+machine1.getPc());
-		System.out.println("machine2 pc before readAndTranslate: "+machine2.getPc());
-		
+		Machine machine2 = new Machine();	
 		translator = new Translator("instructionsTestAdd.txt");		
 		translator.readAndTranslate(machine1.getLabels(),machine1.getProg());
 		translator = new Translator("instructionsTestAdd.txt");
 		translator.readAndTranslate(machine2.getLabels(),machine2.getProg());
-
-		System.out.println();
-		System.out.println("machine1 labels after rAT: "+machine1.getLabels().labels);
-		System.out.println("machine2 labels after rAT: "+machine2.getLabels().labels);
-		System.out.println("machine1, a line of instruction from prog after rAT: "+machine1.getProg().get(0).toString());
-		System.out.println("machine2, a line of instruction from prog after rAT: "+machine2.getProg().get(0).toString());		
-		//so, translator.readAndTranslate() sets the machine's labels and prog.
 		machine1.execute();
-		machine2.execute();
-		//so, machine.execute() sets the machine's pc and registers.
-		System.out.println("machine1 registers after rAT: "+machine1.getRegisters().registers[0]);
-		System.out.println("machine2 registers after rAT: "+machine2.getRegisters().registers[0]);
-		System.out.println("machine1 pc after rAT: "+machine1.getPc());
-		System.out.println("machine2 pc after rAT: "+machine2.getPc());
-		
+		machine2.execute();		
 		assertTrue(machine1.equals(machine2) && machine2.equals(machine1));// THE TEST FAILS HERE BUT I DON'T THINK IT SHOULD !!
 
 		Instruction instruction = new AddInstruction("string",1,2,3);
@@ -286,8 +265,6 @@ public class MachineTest {
 		
 		machine1.setPc(1);
 		machine2.setPc(2);
-		System.out.println("machine1's pc is now: "+machine1.getPc());
-		System.out.println("machine2's pc is now: "+machine2.getPc());
 		assertFalse(machine1.equals(machine2) && machine2.equals(machine1));
 
 		machine1 = machine2;
@@ -305,18 +282,55 @@ public class MachineTest {
 		assertTrue(machine1.equals(machine2) && machine2.equals(machine1));
 		assertTrue(machine1.hashCode() == machine2.hashCode());
 	}
-
+	/**
+	 * (I learned that when the (machine) object is passed as a parameter 
+	 * to println() method, it implicitly calls its toString() method,
+	 * i.e. println(machine) is same as println(machine.toString())).
+	 * For the txt file used in this test, the overriden toString() 
+	 * transforms the output that would have been:
+	 * "Machine(labels=(fo, f1, f2), prog=[fo: lin register 0 value is 34, f1: lin register 1 value is 200, f2: add 0 + 1 to 2], registers=Registers(registers=[34, 200, 234, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), pc=3)"
+	 * to the following 3 lines:
+	 * "fo: lin register 0 value is 34 
+	 * f1: lin register 1 value is 200
+	 * f2: add 0 + 1 to 2".
+	 * The test just looks to see that it removes the "Machine" string at the start.
+	 * (It's far from a thorough test of the overridem toString()). 
+	 */
 	@Test
 	public void testToString() {
-		translator = new Translator("randomTextTest.txt");
+		translator = new Translator("3linesOfInstructionsTest.txt");
 		translator.readAndTranslate(machine.getLabels(), machine.getProg());
-		machine.execute();
-		System.out.println("machine.toString() gives: \n"+machine.toString());
+		String expectedOutput = "fo: lin";
+		String actualOutput  = machine.toString().substring(0,7);
+		assertEquals(expectedOutput,actualOutput);
+		
+		String failedOverride = "Machine";
+		assertFalse(failedOverride.equals(machine.toString().substring(0,7)));
 	}
 
+	/**
+	 * Not sure that this is needed as Machine is not part of any class 
+	 * inheritance hierarchy (other than Object). But it's written in various
+	 * blurbs on the web (including Lombok's) that whenever an equals() is
+	 * overriden, the canEqual() must also be overriden, which it is (by Lombok),
+	 * Just to test this method alone, I've decided to create a whole new class 
+	 * in the SML package which extends Machine. The two objects are then subjected
+	 * to the exact same methods and compared. It is expected that canEqual() 
+	 * should be false as they are not the exact same class, but only subclass and
+	 * base class.  
+	 * 
+	 */
 	@Test
 	public void testCanEqual() {
-		fail("Not yet implemented");
+		translator = new Translator("3linesOfInstructionsTest.txt");
+		translator.readAndTranslate(subMachineTest.getLabels(), subMachineTest.getProg());
+		subMachineTest.execute();
+
+		translator = new Translator("3linesOfInstructionsTest.txt");
+		translator.readAndTranslate(machine.getLabels(), machine.getProg());
+		machine.execute();
+		
+		assertFalse(subMachineTest.canEqual(machine));
 	}
 
 	/**
