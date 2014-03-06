@@ -118,8 +118,21 @@ public class RegistersTest {
 
 	@Test
 	public void testEqualsObject() {
-		Registers registers2 = new Registers()  ;
-		
+		translator = new Translator("instructionsTestAdd.txt");
+		translator.readAndTranslate(machine.getLabels(), machine.getProg());
+		machine.execute();
+		registers.setRegisters(machine.getRegisters().registers);
+
+		Registers registers2 = new Registers();
+		assertFalse(registers.equals(registers2) && registers2.equals(registers));
+
+		translator = new Translator("instructionsTestAdd.txt");
+		translator.readAndTranslate(machine.getLabels(), machine.getProg());
+		machine.execute();
+		registers2.setRegisters(machine.getRegisters().registers);
+
+		assertTrue(registers.equals(registers2) && registers2.equals(registers));
+
 	}
 
 	@Test
