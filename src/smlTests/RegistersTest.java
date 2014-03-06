@@ -35,7 +35,7 @@ public class RegistersTest {
 		translator = new Translator("instructionsTestAdd.txt");
 		translator.readAndTranslate(machine.getLabels(), machine.getProg());
 		machine.execute();
-		registers.setRegisters(machine.getRegisters().registers);
+		registers.setRegisters(machine.getRegisters().getRegisters());
 
 		Registers registers2 = new Registers();
 		assertFalse(registers.equals(registers2) && registers2.equals(registers));
@@ -49,7 +49,10 @@ public class RegistersTest {
 
 	@Test
 	public void testRegisters() {
-		fail("Not yet implemented");
+		Registers registers2 = new Registers();
+		int actualOutput = registers2.getRegisters().length;
+		int expectedOutput = 32;
+		assertEquals(expectedOutput,actualOutput);
 	}
 
 	/**
@@ -73,7 +76,7 @@ public class RegistersTest {
 		translator = new Translator("instructionsTestAdd.txt");
 		translator.readAndTranslate(machine.getLabels(), machine.getProg());
 		machine.execute();
-		registers.setRegisters(machine.getRegisters().registers);
+		registers.setRegisters(machine.getRegisters().getRegisters());
 		int actualOutput = registers.getRegister(0);
 		int expectedOutput = 88;
 		assertEquals(expectedOutput,actualOutput);
@@ -88,7 +91,7 @@ public class RegistersTest {
 		translator = new Translator("instructionsTestAdd.txt");
 		translator.readAndTranslate(machine.getLabels(), machine.getProg());
 		machine.execute();
-		registers.setRegisters(machine.getRegisters().registers);
+		registers.setRegisters(machine.getRegisters().getRegisters());
 		int[] result = registers.getRegisters();
 		String actualOutput = "";
 		for (int i = 0; i<result.length; i++) {
@@ -121,7 +124,7 @@ public class RegistersTest {
 		translator = new Translator("instructionsTestAdd.txt");
 		translator.readAndTranslate(machine.getLabels(), machine.getProg());
 		machine.execute();
-		registers.setRegisters(machine.getRegisters().registers);
+		registers.setRegisters(machine.getRegisters().getRegisters());
 
 		Registers registers2 = new Registers();
 		assertFalse(registers.equals(registers2) && registers2.equals(registers));
@@ -129,10 +132,9 @@ public class RegistersTest {
 		translator = new Translator("instructionsTestAdd.txt");
 		translator.readAndTranslate(machine.getLabels(), machine.getProg());
 		machine.execute();
-		registers2.setRegisters(machine.getRegisters().registers);
+		registers2.setRegisters(machine.getRegisters().getRegisters());
 
 		assertTrue(registers.equals(registers2) && registers2.equals(registers));
-
 	}
 
 	/**
@@ -142,19 +144,23 @@ public class RegistersTest {
 	@Test
 	public void testCanEqual() {}
 
+	/**
+	 * Test compares a string concatenated from the first 10 characters of the registers.toString()
+	 * output i.e. "Registers(" to the last 3 characters, i.e. "0])". These were established
+	 * by println, so it seems a pointless in that I am saying, pass if it prints what it prints.. !	
+	 */
 	@Test
 	public void testToString() {
 		translator = new Translator("3linesOfInstructionsTest.txt");
 		translator.readAndTranslate(machine.getLabels(), machine.getProg());
 		machine.execute();
-		registers.setRegisters(machine.getRegisters().registers);
+		registers.setRegisters(machine.getRegisters().getRegisters());
 		
 		String actualOutput = registers.toString().substring(0,10)+registers.toString().substring(registers.toString().length()-3);
 		String expectedOutput = "Registers(0])";
 
 		System.out.println(registers.toString());
-		assertEquals(expectedOutput,actualOutput);
-		
+		assertEquals(expectedOutput,actualOutput);	
 	}
 
 }
