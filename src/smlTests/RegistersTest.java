@@ -27,9 +27,24 @@ public class RegistersTest {
 	public void tearDown() throws Exception {
 	}
 
+	/**
+	 * Test based on how I wrote the same method in MachineTest.
+	 */
 	@Test
 	public void testHashCode() {
-		fail("Not yet implemented");
+		translator = new Translator("instructionsTestAdd.txt");
+		translator.readAndTranslate(machine.getLabels(), machine.getProg());
+		machine.execute();
+		registers.setRegisters(machine.getRegisters().registers);
+
+		Registers registers2 = new Registers();
+		assertFalse(registers.equals(registers2) && registers2.equals(registers));
+		assertFalse(registers.hashCode() == registers2.hashCode());
+		
+		registers = registers2;
+		assertTrue(registers.equals(registers2) && registers2.equals(registers));
+		assertTrue(registers.hashCode() == registers2.hashCode());
+		
 	}
 
 	@Test
@@ -103,7 +118,8 @@ public class RegistersTest {
 
 	@Test
 	public void testEqualsObject() {
-		fail("Not yet implemented");
+		Registers registers2 = new Registers()  ;
+		
 	}
 
 	@Test
