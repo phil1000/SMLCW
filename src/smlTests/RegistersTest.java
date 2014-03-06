@@ -135,14 +135,26 @@ public class RegistersTest {
 
 	}
 
+	/**
+	 * I wrote this test in MachineTest by creating a whole new Machine subclass. 
+	 * I've decided not do the same in every testCanEqual() in every test class.
+	 */
 	@Test
-	public void testCanEqual() {
-		fail("Not yet implemented");
-	}
+	public void testCanEqual() {}
 
 	@Test
 	public void testToString() {
-		fail("Not yet implemented");
+		translator = new Translator("3linesOfInstructionsTest.txt");
+		translator.readAndTranslate(machine.getLabels(), machine.getProg());
+		machine.execute();
+		registers.setRegisters(machine.getRegisters().registers);
+		
+		String actualOutput = registers.toString().substring(0,10)+registers.toString().substring(registers.toString().length()-3);
+		String expectedOutput = "Registers(0])";
+
+		System.out.println(registers.toString());
+		assertEquals(expectedOutput,actualOutput);
+		
 	}
 
 }
