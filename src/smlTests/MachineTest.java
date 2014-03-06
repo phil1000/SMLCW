@@ -15,11 +15,7 @@ import sml.*;
  * 
  * @author Shahin/Phil
  *
- * Note: only execute() and toString() are not written by
- * Lombok, so I'm not sure that I should be writing tests for 
- * any methods other than these two. I have written anyway, 
- * if only for practice and to get a clearer understanding of
- * how the program is meant to work.  
+ * Note: only execute() and toString() are not written by Lombok.. 
  * 
  */
 public class MachineTest {
@@ -51,7 +47,7 @@ public class MachineTest {
 		translator.readAndTranslate(machine.getLabels(), machine.getProg());
 		machine.execute();
 		System.out.println(machine.getRegisters() + ".");
-		int actualOutput = machine.getRegisters().registers[2];
+		int actualOutput = machine.getRegisters().getRegisters()[2];
 		int expectedOutput = (88+43);
 		assertEquals(expectedOutput,actualOutput);
 	}
@@ -106,7 +102,7 @@ public class MachineTest {
 //		translator = new Translator("emptyFileTest.txt"); //same thing happens if this file is input
 //		translator = new Translator("OneLabelOnlyFileTest.txt");//same thing happens if this file is input
 		machine.execute();
-		int[] result = machine.getRegisters().registers;
+		int[] result = machine.getRegisters().getRegisters();
 		int noOfRegisters = 0;
 		for (int i=0;i<result.length;i++) {
 			if (result[i] == 0) {
@@ -123,7 +119,7 @@ public class MachineTest {
 		machine.execute();
 		int countValuesInRegisters = 0;
 		
-		result = machine.getRegisters().registers;
+		result = machine.getRegisters().getRegisters();
 		for (int i=0;i<result.length;i++) {
 			countValuesInRegisters += result[i];
 		}
@@ -208,10 +204,10 @@ public class MachineTest {
 	@Test
 	public void testSetRegisters() {
 		Registers registers = new Registers();
-		registers.registers[1] = 1;
-		registers.registers[2] = 3;
+		registers.getRegisters()[1] = 1;
+		registers.getRegisters()[2] = 3;
 		machine.setRegisters(registers);
-		int[] actualOutput = machine.getRegisters().registers;
+		int[] actualOutput = machine.getRegisters().getRegisters();
 				
 		int[] expectedArray = new int[32];
 		for (int i=0;i<expectedArray.length;i++) {
