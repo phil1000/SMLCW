@@ -77,7 +77,7 @@ public class Translator {
 	// and return the instruction
 	public Instruction getInstruction(String label) {
 
-		Object[] parameterList = new Object[10]; // This array used to store int or string parameters to be passed to the constructor
+		Object[] parameterList;//This array used to store int or string parameters to be passed to the constructor
 		int parmCount=0;
 		
 		if (line.equals(""))
@@ -93,7 +93,6 @@ public class Translator {
 		buf.setCharAt(0,c);
 		String newString = buf.toString( );
 		newString = "sml." + newString + "Instruction";
-		//System.out.println(newString);
 		
 		Class myClass = null;
 		try {
@@ -102,33 +101,25 @@ public class Translator {
 			Constructor[] constructors = myClass.getConstructors();
 			Constructor myConstructor = constructors[1]; // ignoring the first constructor
 			Class[] parameterTypes = myConstructor.getParameterTypes();
-			parmCount=parameterTypes.length;
-			for (int j=1;j<parameterTypes.length;j++) { // start from 1 as first item is label and already stripped off
-				Class tempClass = parameterTypes[j];
-				if (tempClass.getName().equals("java.lang.String")) {
-					String parm = scan();
-					parameterList[j-1]=parm;
-				} else if (tempClass.getName().equals("int")) {
-					Integer parm = scanInt();
-					parameterList[j-1]=parm;
+			parameterList = new Object[parameterTypes.length];//create big enough parameterList array to store all constructor parms
+			//now need to populate an array of parameters to be passed to the class constructor
+			//need to check whether the parm type is a string or int as the instruction scan method
+			//differs depending on parameter type e.g. scan() or scanInt()
+			for (int j=0;j<parameterList.length;j++) {
+				if (j==0) {
+					parameterList[j]=label;
+				} else {
+					Class tempClass = parameterTypes[j];
+					if (tempClass.getName().equals("java.lang.String")) {
+						String parm = scan();
+						parameterList[j]=parm;
+					} else if (tempClass.getName().equals("int")) {
+						Integer parm = scanInt();
+						parameterList[j]=parm;
+					}
 				}
 			}
-			
-			if (parmCount==2) {
-				return (Instruction) myConstructor.newInstance(label, 
-						(parameterList[0] instanceof String) ? (String) parameterList[0] : (int) parameterList[0]);
-			}
-			if (parmCount==3) {
-				return (Instruction) myConstructor.newInstance(label, 
-						(parameterList[0] instanceof String) ? (String) parameterList[0] : (int) parameterList[0], 
-								(parameterList[1] instanceof String) ? (String) parameterList[1] : (int) parameterList[1]);
-			}
-			if (parmCount==4) {
-				return (Instruction) myConstructor.newInstance(label, 
-						(parameterList[0] instanceof String) ? (String) parameterList[0] : (int) parameterList[0], 
-								(parameterList[1] instanceof String) ? (String) parameterList[1] : (int) parameterList[1],
-										(parameterList[2] instanceof String) ? (String) parameterList[2] : (int) parameterList[2]);
-			}
+			return (Instruction) myConstructor.newInstance(parameterList); // create new instance using the previously create parameter list
 			
 		} catch (ClassNotFoundException ex ) {
 			System.out.println("class " + newString + " not found");
