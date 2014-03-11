@@ -1,11 +1,13 @@
 package sml;
 
+import lombok.Data;
+
 /**
- * This class is the superclass of the classes for machine instructions
+ * This class is the superclass of the classes for machine instructions.
  * 
  * @author someone
  */
-
+@Data
 public abstract class Instruction {
 	protected String label;
 	protected String opcode;

@@ -11,12 +11,10 @@ import lombok.Data;
 public class Machine {
 	// The labels in the SML program, in the order in which
 	// they appear (are defined) in the program
-// 'public' for JUnit only, otherwise 'private'
-	public Labels labels;
+	private Labels labels;
 
 	// The SML program, consisting of prog.size() instructions, each
 	// of class Instruction (or one of its subclasses)
-// 'public' for JUnit only, otherwise 'private'
 	private ArrayList<Instruction> prog;
 
 	// The registers of the SML machine
@@ -36,10 +34,9 @@ public class Machine {
 
 		Machine m = new Machine();
 		Translator t = new Translator(args[0]);
-		t.readAndTranslate(m.getLabels(), m.getProg());
+		t.readAndTranslate(m.getLabels(),m.getProg());
 
-		System.out.println("Here is the program; it has " + m.getProg().size()
-				+ " instructions.");
+		System.out.println("Here is the program; it has " + m.getProg().size() + " instructions.");
 		System.out.println(m);
 
 		System.out.println("Beginning program execution.");

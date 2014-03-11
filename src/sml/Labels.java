@@ -1,13 +1,15 @@
 package sml;
 
 import java.util.ArrayList;
+import lombok.Data;
 
 //An instance contains a list of Strings, called "labels",
 //in the order in which they were added to the list. 
 
+@Data
 public class Labels {
-
-	private ArrayList<String> labels;
+// 'public' for JUnit only, otherwise 'private'
+	public ArrayList<String> labels;
 
 	{
 		labels = new ArrayList<>();

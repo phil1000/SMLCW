@@ -14,6 +14,7 @@ import lombok.Data;
 public class Registers {
 
 	private final static int NUMBEROFREGISTERS = 32;
+
 	private int registers[];
 
 	// Constructor: an instance whose registers are set to 0

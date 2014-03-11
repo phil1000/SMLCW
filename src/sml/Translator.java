@@ -88,7 +88,7 @@ public class Translator {
 		// i.e. add becomes sml.AddInstruction and mul becomes sml.MulInstruction and so on
 		String ins = scan();
 		char c = ins.charAt(0);
-		c=Character.toUpperCase(c);
+		c = Character.toUpperCase(c);
 		StringBuffer buf = new StringBuffer(ins);
 		buf.setCharAt(0,c);
 		String newString = buf.toString( );
