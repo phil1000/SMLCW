@@ -10,7 +10,7 @@ public class MulInstruction extends Instruction {
 	}
 
 	public MulInstruction(String label, int result, int op1, int op2) {
-		this(label, "sub");
+		this(label, "mul");
 		this.result = result;
 		this.op1 = op1;
 		this.op2 = op2;
