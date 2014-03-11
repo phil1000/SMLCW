@@ -63,7 +63,7 @@ public class MachineTest {
 		translator.readAndTranslate(machine.getLabels(), machine.getProg());
 		String actualOutput = "";
 		for (int i=0;i<machine.getLabels().labels.size();i++) {
-			actualOutput += machine.labels.labels.get(i);
+			actualOutput += machine.getLabels().labels.get(i);
 		}
 		String expectedOutput = "fof1f2f3";
 		assertEquals(expectedOutput,actualOutput);
