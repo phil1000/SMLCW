@@ -21,7 +21,7 @@ import sml.*;
 public class MachineTest {
 
 	private Machine machine;
-	private SubMachineTest subMachineTest;
+	private SubMachineForTest subMachineForTest;
 	
 //	private 	AddInstruction instruction;
 	private Translator translator; 
@@ -29,13 +29,13 @@ public class MachineTest {
 	@Before
 	public void setUp() throws Exception {
 		machine = new Machine();	
-		subMachineTest = new SubMachineTest();	
+		subMachineForTest = new SubMachineForTest();	
 	}
 
 	@After
 	public void tearDown() throws Exception {
 		machine = null;
-		subMachineTest = null;
+		subMachineForTest = null;
 	}
 
 	/**
