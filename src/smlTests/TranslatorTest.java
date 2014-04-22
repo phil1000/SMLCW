@@ -48,10 +48,10 @@ public class TranslatorTest {
 	@Test
 	public void testTranslator() {
 		
-		testFileName = "abc";
+		testFileName = "testFileName.txt";
 		translator = new Translator(testFileName);
 		String actualOutput = translator.fileName;
-		String expectedOutput = "src/abc";
+		String expectedOutput = "src/testFileName.txt";
 		assertEquals(expectedOutput,actualOutput);
 
 	}
@@ -68,12 +68,10 @@ public class TranslatorTest {
 	@Test
 	public void testReadAndTranslate() {
 		
-		String testFileName2 = "1lineOfInstructionsTest.txt";
+		String testFileName2 = "1lineOfInstructionTest.txt";
 		translator = new Translator(testFileName2); 
 		assertFalse(translator.readAndTranslate(machine.getLabels(), machine.getProg()));		
 
-		machine = null;
-		machine = new Machine();
 		String testFileName3 = "3linesOfInstructionsTest.txt";
 		translator = new Translator(testFileName3); 
 		assertFalse(translator.readAndTranslate(machine.getLabels(), machine.getProg()));		
@@ -83,29 +81,24 @@ public class TranslatorTest {
 			
 			actualOutput += labelTest;
 			
-		}
-		
+		}	
 		String expectedOutput = "fof1f2";
 		assertEquals(expectedOutput, actualOutput);		
 
+		
 		String actualOutput2 = "";
 		for (Instruction instructionTest : translator.program) {
 			
 			actualOutput2 += instructionTest.getLabel();
 			
 		}
-		
 		String expectedOutput2 = "fof1f2";
 		assertEquals(expectedOutput2, actualOutput2);		
 
-		machine = null;
-		machine = new Machine();
 		String testFileName4 = "instructions.txt";
 		translator = new Translator(testFileName4); 
 		assertFalse(translator.readAndTranslate(machine.getLabels(), machine.getProg()));		
 		
-		machine = null;
-		machine = new Machine();
 		String testFileName5 = "EmptyFileTest.txt";
 		translator = new Translator(testFileName5); 
 		assertFalse(translator.readAndTranslate(machine.getLabels(), machine.getProg()));
@@ -120,7 +113,8 @@ public class TranslatorTest {
 	@Test
 	public void testScan() {
 		
-		Translator translator = new Translator("abc");
+		String testFileName = "testFileName";
+		translator = new Translator(testFileName);
 		translator.line = "fo 12 34 9";
 		String expectedOutput = "fo";
 		String actualOutput = translator.scan();
@@ -148,11 +142,16 @@ public class TranslatorTest {
 	@Test
 	public void testScanInt() {
 		
-		Translator translator = new Translator("abc");
-		translator.line = "fo 12 34 9";
+		String testFileName = "testFileName";
+		translator = new Translator(testFileName);
+		translator.line = "fo lin 12 34 9";
 		int expectedOutput = Integer.MAX_VALUE;
 		int actualOutput = translator.scanInt();
 		assertEquals(expectedOutput,actualOutput);
+
+		int expectedOutput1 = Integer.MAX_VALUE;
+		int actualOutput1 = translator.scanInt();
+		assertEquals(expectedOutput1,actualOutput1);
 
 		int expectedOutput2 = 12;
 		int actualOutput2 = translator.scanInt();
@@ -168,17 +167,35 @@ public class TranslatorTest {
 
 	}
 	
+	/**
+	 * scan() is first called in readAndTranslate(Labels,ArrayList<>), returning the label (e.g. "fo"). Scan() 
+	 * returns the first word in 'line' but then deletes it from 'line' too. As such, subsequent calls to scan() 
+	 * return the next word along, string-by-string. Therefore the second scan() call, which is made in 
+	 * getInstruction(String), returns the opcode (e.g. "lin"). This is used to generate 'newString' which
+	 * should be "sml.LinInstruction" where scan() returns "lin" for e.g.
+	 */
 	@Test
 	public void testGetInstruction() {
 		
-		machine = null;
-		machine = new Machine();
-		String testFileName = "1lineOfInstructionTest.txt";
-		Translator translator = new Translator(testFileName);
-		Instruction expectedOutput = new LinInstruction("fo","lin");
-		Instruction actualOutput = translator.getInstruction("fo");
-		assertSame(expectedOutput, actualOutput);
+		String testFileName = "testFileName";
+		translator = new Translator(testFileName);
+		translator.line = "lin 34 9";//temporary change of visibility to 'line', private to public
+		translator.getInstruction("test");
+		String newString = "sml.LinInstruction";
+		String expectedOutput = newString;
+		String actualOutput = translator.forJUnitTestNewString;	
+		assertEquals(expectedOutput, actualOutput);
 
+		String labelTest = "foTest";
+		String insTest = "lin";
+		int registerTest = 34;
+		int valueTest = 9; 
+		translator.line = insTest + " " + registerTest + " " + valueTest;//temporary change of visibility to 'line', private to public
+		String actualOutput2 = translator.getInstruction(labelTest).toString();
+		String ToStringsOfInstructionAndLinInstruction = labelTest + ": " + insTest + " register " + registerTest + " value is " + valueTest;
+		String expectedOutput2 = ToStringsOfInstructionAndLinInstruction;
+		assertEquals(expectedOutput2, actualOutput2);
+		
 	}
 
 }
