@@ -188,13 +188,34 @@ public class TranslatorTest {
 
 		String labelTest = "foTest";
 		String insTest = "lin";
-		int registerTest = 34;
+		int registerTest = 30;
 		int valueTest = 9; 
 		translator.line = insTest + " " + registerTest + " " + valueTest;//temporary change of visibility to 'line', private to public
 		String actualOutput2 = translator.getInstruction(labelTest).toString();
 		String ToStringsOfInstructionAndLinInstruction = labelTest + ": " + insTest + " register " + registerTest + " value is " + valueTest;
 		String expectedOutput2 = ToStringsOfInstructionAndLinInstruction;
 		assertEquals(expectedOutput2, actualOutput2);
+		
+		labelTest = "foTest";
+		insTest = "add";
+		registerTest = 30;
+		int value1Test = 9;
+		int value2Test = 4;
+		translator.line = insTest + " " + registerTest + " " + value1Test + " " + value2Test;//temporary change of visibility to 'line', private to public
+		String actualOutput3 = translator.getInstruction(labelTest).toString();
+		String ToStringsOfInstructionAndAddInstruction = labelTest + ": " + insTest +  " " + value1Test + " + " + value2Test + " to " + registerTest;
+		String expectedOutput3 = ToStringsOfInstructionAndAddInstruction;
+		assertEquals(expectedOutput3, actualOutput3);
+
+		labelTest = "foTest";
+		insTest = "bnz";
+		registerTest = 30;
+		String label2Test = "f5Test";
+		translator.line = insTest + " " + registerTest + " " + label2Test;//temporary change of visibility to 'line', private to public
+		String actualOutput4 = translator.getInstruction(labelTest).toString();
+		String ToStringsOfInstructionAndBnzInstruction = labelTest + ": " + insTest +  " register " + registerTest + " label = " + label2Test;
+		String expectedOutput4 = ToStringsOfInstructionAndBnzInstruction;
+		assertEquals(expectedOutput4, actualOutput4);
 		
 	}
 
