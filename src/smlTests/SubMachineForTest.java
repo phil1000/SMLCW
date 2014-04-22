@@ -1,9 +1,16 @@
-package sml;
+package smlTests;
 
 import java.util.ArrayList;
-import lombok.Data;
 
-@Data
+import sml.Instruction;
+import sml.Labels;
+import sml.Machine;
+import sml.Registers;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Data 
+@EqualsAndHashCode(callSuper=false)
 public class SubMachineForTest extends Machine {
 	private Labels labels;
 	private ArrayList<Instruction> prog;

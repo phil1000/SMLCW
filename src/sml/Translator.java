@@ -17,10 +17,17 @@ public class Translator {
 	// word + line is the part of the current line that's not yet processed
 	// word has no whitespace
 	// If word and line are not empty, line begins with whitespace
-	private String line = "";
-	private Labels labels; // The labels of the program being translated
-	private ArrayList<Instruction> program; // The program to be created
-	private String fileName; // source file of SML code
+	//line temporarily made public for JUnit test
+	public String line = "";
+	
+	//labels temporarily made public for JUnit test
+	public Labels labels; // The labels of the program being translated
+	
+	//program temporarily made public for JUnit test
+	public ArrayList<Instruction> program; // The program to be created
+
+	//temporarily changed from private to public for JUnit
+	public String fileName; // source file of SML code
 
 	private static final String SRC = "src";
 
@@ -39,11 +46,11 @@ public class Translator {
 			System.out.println("File: IO error to start " + ioE.getMessage());
 			return false;
 		}
-		labels = lab;
-		labels.reset();
-		program = prog;
-		program.clear();
-
+		labels = lab; // I don't understand the point of Machine passing 'lab' and 'prog'..
+		labels.reset();// ..and assigning their values to Translator's copy...
+		program = prog;// ..They're empty, and then their values (empty or otherwise).. 
+		program.clear();// ..are assigned to local copies, only to be immediately cleared (?)
+		
 		try {
 			line = sc.nextLine();
 		} catch (NoSuchElementException ioE) {
@@ -57,6 +64,7 @@ public class Translator {
 
 			if (label.length() > 0) {
 				Instruction ins = getInstruction(label);
+		
 				if (ins != null) {
 					labels.addLabel(label);
 					program.add(ins);
@@ -93,11 +101,9 @@ public class Translator {
 		buf.setCharAt(0,c);
 		String newString = buf.toString( );
 		newString = "sml." + newString + "Instruction";
-		
 		Class myClass = null;
 		try {
 			myClass = Class.forName(newString);
-			
 			Constructor[] constructors = myClass.getConstructors();
 			Constructor myConstructor = constructors[1]; // ignoring the first constructor
 			Class[] parameterTypes = myConstructor.getParameterTypes();

@@ -2,8 +2,8 @@ package sml;
 
 public class BnzInstruction extends Instruction {
 	private int register;
-	private int value; // does value need to 
-	//be member field, it looks like its only used locally in execute()
+	private int value; // does value need to be member field, 
+	// it looks like its only used locally inside execute()
 	private String labelL2;
 
 	public BnzInstruction(String label, String opcode) {

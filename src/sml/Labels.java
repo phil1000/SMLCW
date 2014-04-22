@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 public class Labels {
-// 'public' for JUnit only, otherwise 'private'
+// temporarily changed labels to 'public' for JUnit only, otherwise 'private'
 	public ArrayList<String> labels;
 
 	{
