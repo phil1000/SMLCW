@@ -83,6 +83,8 @@ public class Translator {
 	// line should consist of an MML instruction, with its label already
 	// removed. Translate line into an instruction with label label
 	// and return the instruction
+	public String forJUnitTestNewString = "";// this string is for JUnit test only
+	
 	public Instruction getInstruction(String label) {
 
 		Object[] parameterList;//This array used to store int or string parameters to be passed to the constructor
@@ -101,6 +103,7 @@ public class Translator {
 		buf.setCharAt(0,c);
 		String newString = buf.toString( );
 		newString = "sml." + newString + "Instruction";
+		forJUnitTestNewString = newString;// this is assignment is for JUnit test only
 		Class myClass = null;
 		try {
 			myClass = Class.forName(newString);
