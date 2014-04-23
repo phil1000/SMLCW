@@ -88,7 +88,7 @@ public class Translator {
 	public Instruction getInstruction(String label) {
 
 		Object[] parameterList;//This array used to store int or string parameters to be passed to the constructor
-		int parmCount=0;
+		int parmCount=0; //not used ?
 		
 		if (line.equals(""))
 			return null;
