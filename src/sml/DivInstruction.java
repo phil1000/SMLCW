@@ -1,9 +1,11 @@
 package sml;
 
 public class DivInstruction extends Instruction {
-	private int result;
-	private int op1;
-	private int op2;
+	
+	//temporarily changed visibility of all 3 from private to public for JUnit tests
+	public int result;
+	public int op1;
+	public int op2;
 
 	public DivInstruction(String label, String op) {
 		super(label, op);

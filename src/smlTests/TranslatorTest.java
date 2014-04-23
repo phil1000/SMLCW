@@ -67,6 +67,9 @@ public class TranslatorTest {
 		translator = new Translator(testFileName3); 
 		assertFalse(translator.readAndTranslate(machine.getLabels(), machine.getProg()));		
 
+		testFileName3 = "3linesOfInstructionsTest.txt";
+		translator = new Translator(testFileName3); 
+		translator.readAndTranslate(machine.getLabels(), machine.getProg());
 		String actualOutput = "";
 		for (String labelTest : translator.labels.getLabels()) {
 			

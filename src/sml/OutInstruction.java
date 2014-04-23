@@ -1,8 +1,10 @@
 package sml;
 
 public class OutInstruction extends Instruction {
-	private int register;
-	private int value;
+
+	//temporarily changed visibility of register from private to public for JUnit tests
+	public int register;
+	private int value; //not used, can delete
 
 	public OutInstruction(String label, String opcode) {
 		super(label, opcode);

@@ -7,8 +7,10 @@ package sml;
  */
 
 public class LinInstruction extends Instruction {
-	private int register;
-	private int value;
+	
+	//temporarily changed visibility of all three from private to public for junit test
+	public int register;
+	public int value;
 
 	public LinInstruction(String label, String opcode) {
 		super(label, opcode);

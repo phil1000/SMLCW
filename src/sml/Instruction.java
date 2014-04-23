@@ -9,8 +9,9 @@ import lombok.Data;
  */
 @Data
 public abstract class Instruction {
-	protected String label;
-	protected String opcode;
+	//temporarily changed visibility of both from protected to public for junit test
+	public String label;
+	public String opcode;
 
 	// Constructor: an instruction with label l and opcode op
 	// (op must be an operation of the language)

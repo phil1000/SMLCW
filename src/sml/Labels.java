@@ -59,6 +59,8 @@ public class Labels {
 	// Set the number of elements in the list to 0
 
 	public void reset() {
+		
 		labels.clear();
+	
 	}
 }

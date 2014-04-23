@@ -2,28 +2,27 @@ package smlTests;
 
 import static org.junit.Assert.*;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import sml.OutInstruction;
+import sml.BnzInstruction;
 import sml.Machine;
 
-public class OutInstructionTest {
-	
-	OutInstruction instructionTest;
+public class BnzInstructionTest {
+
+	BnzInstruction instructionTest;
 	int registerTest = 28;//its one register position, the destination for value
-	int valueTest = 96;//its one value, at position registerTest
+	int valueTest = 96;//its one value, at position registerTest, which is not 0, therefore should branch.
+	int value0Test = 0; // alternative value 0, therefore should not branch.
 	String labelTest = "labTest";
-	String opcodeTest = "out";
+	String label2Test = "lab2Test";//the instruction line to which the program should branch to
+	String opcodeTest = "bnz";
 
 	@Before
 	public void setUp() throws Exception {
 
-		instructionTest = new OutInstruction(labelTest,registerTest);
+		instructionTest = new BnzInstruction(labelTest,registerTest,label2Test);
 	
 	}
 
@@ -31,45 +30,46 @@ public class OutInstructionTest {
 	public void tearDown() throws Exception {
 	
 		instructionTest = null;
-		System.setOut(null);
 		
 	}
 
 	@Test
 	public void testToString() {
 		
-		String expectedOutput = labelTest + ": " + opcodeTest  + " register " + registerTest;
+		String expectedOutput = labelTest + ": " + opcodeTest  + " register " + registerTest + " label = " + label2Test;
 		String actualOutput = instructionTest.toString();
 		assertEquals(expectedOutput,actualOutput);
-	
+		
 	}
 
-	/**
-	 * wrote this testExecute() with help from StackOverFlow 
-	 * http://stackoverflow.com/questions/1119385/junit-test-for-system-out-println 
-	 */
 	@Test
 	public void testExecute() {
-		
+
 		Machine machineTest = new Machine();
 		machineTest.execute();
 		machineTest.getRegisters().setRegister(registerTest, valueTest);
-		
-		final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-		System.setOut(new PrintStream(outContent));
-		
+		machineTest.getLabels().addLabel(label2Test);//label is added to otherwise empty Labels 
+		int randomPcValue = 4;
+		machineTest.setPc(randomPcValue);
 		instructionTest.execute(machineTest);
-		String actualOutput = outContent.toString();
-		String expectedOutput = "Register " + registerTest + " value is " + valueTest + "\n";
-		
+		int expectedOutput = 0;//pc at which the label2Test is explicitly added above 
+		int actualOutput = machineTest.getPc();
 		assertEquals(expectedOutput,actualOutput);
 		
+		randomPcValue = 4;
+		machineTest.setPc(randomPcValue);
+		machineTest.getRegisters().setRegister(registerTest, value0Test);//now the value is 0, so should not branch
+		instructionTest.execute(machineTest);
+		int expectedOutput2 = 4;
+		int actualOutput2 = machineTest.getPc();
+		assertEquals(expectedOutput2,actualOutput2);
+
 	}
 
 	@Test
-	public void testOutInstructionStringString() {
+	public void testBnzInstructionStringString() {
 		
-		instructionTest = new OutInstruction("labTest2", "bypassing2ndAddConstructor");
+		instructionTest = new BnzInstruction("labTest2", "bypassing2ndAddConstructor");
 		String expectedOutput = "labTest2" + "bypassing2ndAddConstructor";
 		String actualOutput = instructionTest.label + instructionTest.opcode;
 		assertEquals(expectedOutput,actualOutput);
@@ -78,7 +78,7 @@ public class OutInstructionTest {
 
 	/**
 	 * arguments passed to constructor compared with 
-	 * member fields of OutInstruction. 
+	 * member fields of BnzInstruction. 
 	 * (Visibilities had to be temporarily changed).
 	 */
 	@Test
@@ -89,11 +89,5 @@ public class OutInstructionTest {
 		assertEquals(expectedOutput,actualOutput);
 
 	}
-
-	/**
-	 * already tested in AddInstructionTest
-	 */
-	@Test
-	public void testInstruction() {}
 
 }

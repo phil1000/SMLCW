@@ -225,17 +225,23 @@ public class MachineTest {
 		registers.getRegisters()[1] = 1;
 		registers.getRegisters()[2] = 3;
 		machine.setRegisters(registers);
-		int[] actualOutput = machine.getRegisters().getRegisters();
-				
+		int[] actualOutput = machine.getRegisters().getRegisters();		
 		int[] expectedArray = new int[32];
 		for (int i=0;i<expectedArray.length;i++) {
+		
 			expectedArray[i] = 0;
+		
 		}
 		expectedArray[1] = 1;
 		expectedArray[2] = 3;
-		int[] expectedOutput = expectedArray;
+		boolean equivalent = false;
+		for (int i=0;i<actualOutput.length;i++) {
+
+			equivalent = (actualOutput[0] == expectedArray[i]);
+			
+		}
 		
-		assertEquals(expectedOutput,actualOutput);
+		assertTrue(equivalent);
 	
 	}
 

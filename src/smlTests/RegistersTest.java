@@ -159,7 +159,6 @@ public class RegistersTest {
 		String actualOutput = registers.toString().substring(0,10)+registers.toString().substring(registers.toString().length()-3);
 		String expectedOutput = "Registers(0])";
 
-		System.out.println(registers.toString());
 		assertEquals(expectedOutput,actualOutput);	
 	}
 

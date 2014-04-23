@@ -2,9 +2,10 @@ package sml;
 
 public class SubInstruction extends Instruction {
 
-	private int result;
-	private int op1;
-	private int op2;
+	//temporarily changed visibility of all three from private to public for junit test
+	public int result;
+	public int op1;
+	public int op2;
 
 	public SubInstruction(String label, String op) {
 		super(label, op);

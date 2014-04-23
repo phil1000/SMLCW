@@ -1,8 +1,11 @@
 package sml;
 
 public class BnzInstruction extends Instruction {
-	private int register;
-	private int value; // does value need to be member field, 
+	
+	//temporarily changed visibility of all three from private to public for junit test
+	public int register;
+	private int value; // Not sure about this value...?
+	
 	// it looks like its only used locally inside execute()
 	private String labelL2;
 
