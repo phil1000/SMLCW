@@ -2,21 +2,12 @@ package smlTests;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.asm.Label;
-
-import sml.AddInstruction;
 import sml.Instruction;
-import sml.Labels;
-import sml.LinInstruction;
 import sml.Machine;
 import sml.Translator;
-import static org.mockito.Mockito.*;
-
 
 public class TranslatorTest {
 

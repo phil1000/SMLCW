@@ -8,8 +8,7 @@ import org.junit.Test;
 
 import sml.AddInstruction;
 import sml.Machine;
-import sml.Registers;
-import static org.mockito.Mockito.*;
+//import static org.mockito.Mockito.*;
 
 public class AddInstructionTest {
 
