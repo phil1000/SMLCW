@@ -79,10 +79,10 @@ Studying the program
 You are provided with some skeleton code which is in a zip file.
 Look at the fields of class Machine, which contain exactly what is needed to execute an SML program:
 
- the labels dened in the program,
- the program itself in an internal form,
- the registers of the machine, and
- the program counter | the number of the next instruction to execute.
+ * the labels dened in the program,
+ * the program itself in an internal form,
+ * the registers of the machine, and
+ * the program counter | the number of the next instruction to execute.
 
 Array like structures are used for the labels and the instructions of the machine because there is no limit to the size of an SML program. An array is used for the registers because there are always exactly 32 registers.
 Now read method Machine.execute, which executes the program. It is a typical fetch-execute cycle that all machines have in some form. At each iteration, the instruction to execute is fetched, the program counter is incremented, and the instruction is executed. The order of the last two instructions is important, because an instruction (e.g. bnz) might change the program counter.
@@ -96,15 +96,15 @@ All the programming that you do has to do with class Instruction and its subclas
 
 Every instruction has a label and an operation - that is exactly what is common to every instruction. Therefore, these properties are maintained in the base class of all instructions.
 
- Your first task is to complete the methods in class Instruction - this may require you to add some fields, which should be protected, so that they are accessible in subclasses.
+ * Your first task is to complete the methods in class Instruction - this may require you to add some fields, which should be protected, so that they are accessible in subclasses.
 
- Now create a subclass of Instruction for each kind of SML instruction and fix method Translator.instruction so that it properly translates that kind of instruction. WRITE ONE INSTRUCTION AT A TIME AND CHECK IT OUT THOROUGHLY, BEFORE PROCEEDING TO THE NEXT! For example, your first program will consist only of add instructions. After you have checked that the instruction add works correctly, progress to working with add and subtract instructions, etc. As you do this, you will see that each successive class can be written by duplicating a previous one and modifying it (obviously avoiding too much repeated code).
+ * Now create a subclass of Instruction for each kind of SML instruction and fix method Translator.instruction so that it properly translates that kind of instruction. WRITE ONE INSTRUCTION AT A TIME AND CHECK IT OUT THOROUGHLY, BEFORE PROCEEDING TO THE NEXT! For example, your first program will consist only of add instructions. After you have checked that the instruction add works correctly, progress to working with add and subtract instructions, etc. As you do this, you will see that each successive class can be written by duplicating a previous one and modifying it (obviously avoiding too much repeated code).
 
- For each instruction, the subclass needs appropriate fields, a constructor, method toString, and a method execute; toString and execute should override the same methods in class Instruction using appropriate annotations.
+ * For each instruction, the subclass needs appropriate fields, a constructor, method toString, and a method execute; toString and execute should override the same methods in class Instruction using appropriate annotations.
  
- Start with the add instruction, because the code for translating it is already there - in method Translator.instruction. Initially, the program will not compile because there is no class for the instruction add. Once that class is suitably written, the program will compile.
+ * Start with the add instruction, because the code for translating it is already there - in method Translator.instruction. Initially, the program will not compile because there is no class for the instruction add. Once that class is suitably written, the program will compile.
 
- After you finish writing a subclass for an SML (except for add), you have to add code to the method Translator.instruction to translate that instruction. The code for translating add should help you with this.
+ * After you finish writing a subclass for an SML (except for add), you have to add code to the method Translator.instruction to translate that instruction. The code for translating add should help you with this.
 
 Final requirement
 -----------------
