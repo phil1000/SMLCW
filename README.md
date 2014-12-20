@@ -62,11 +62,11 @@ Instructions of a program are executed in order (starting with the first one), 
 
 Your interpreter will:
 
-1. Read the the name of a le that contains the program from the command line (via String[] args),
-2. Read the program from the le and translate it into an internal form,
+1. Read the the name of a file that contains the program from the command line (via String[] args),
+2. Read the program from the file and translate it into an internal form,
 3. Print the program,
 4. Execute the program, and
-5. Print the nal value of the registers.
+5. Print the final value of the registers.
 
 This looks like a tall order, but have no fear; we provide you with a lot of the code, so that you can concentrate on the interesting use of subclasses. Follow our directions on doing the project, and the project should take 3-5 hours at most, once you have read and understood this document.
 
