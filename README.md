@@ -1,20 +1,22 @@
-SMLCW
-=====
+<h1>SMLCW</h1>
 
-OODP Assignment 2 - Simple Machine Language Interpreter
+<h2>OODP Assignment 2 - Simple Machine Language Interpreter</h2>
 
-This was the 3rd of 4 programming courseworks (Mar - April 2014) as part of a conversion masters in Computer Science at Birkbeck College London.
-This was a pair programming exercise, with Phil Moura, who tackled the hardest parts of the task including the Java reflection.
 
-The coursework requirements are here:
+This was the 3rd of 4 programming courseworks (Mar/April 2014) as part of a conversion masters in Computer Science at Birkbeck College London.
+This was a pair programming exercise: Shahin Zibaee & Phil Moura. Phil tackled the hardest parts of the task, including the Java reflection.
 
-Objectives
-----------
+---
+
+
+<h3>The coursework requirements are here:</h3>
+
+<h4>Objectives</h4>
 
 The goal of this assignment is to give you practice with subclasses and existing code.
 
-The problem
------------
+<h4>The problem</h4>
+
 You will write an interpreter for a simple machine language | SML. The general form of a machine language instruction is
 
 label instruction register-list
@@ -49,6 +51,7 @@ Each statement of a program must be labeled with a dierent identier.
 Each of s1, s2, and r is an integer in the range 0. . . 31 and refers to one of the 32 registers in the machine that executes language SML.
 
 Here is an example of an SML program to compute factorial 6.
+
 	f0 lin 20 6
 	f1 lin 21 1
 	f2 lin 22 1
@@ -70,12 +73,12 @@ Your interpreter will:
 
 This looks like a tall order, but have no fear; we provide you with a lot of the code, so that you can concentrate on the interesting use of subclasses. Follow our directions on doing the project, and the project should take 3-5 hours at most, once you have read and understood this document.
 
-Design of the program
----------------------
+<h4>Design of the program</h4>
+
 We provide some of the classes, provide specications of a few, and leave a few to you. The code we give you does the dirty work of reading in a program and translating it to an internal form, so you can concentrate just on the code that executes the program. Study the class Machine first, for it is the heart of the program.
 
-Studying the program
---------------------
+<h4>Studying the program</h4>
+
 You are provided with some skeleton code which is in a zip file.
 Look at the fields of class Machine, which contain exactly what is needed to execute an SML program:
 
@@ -90,8 +93,8 @@ Now read method Machine.execute, which executes the program. It is a typical fet
 Finally, study the main method.
 The class Translator contains the methods that read in the program and translate it into an internal form. Very little error checking goes on here. For example, there is no checking for duplicate label denitions, for the use of a label that doesn't exist, and for a register number not in the range 0. . . 31.
 
-Class Instruction and it subclasses
------------------------------------
+<h4>Class Instruction and it subclasses</h4>
+
 All the programming that you do has to do with class Instruction and its subclasses. The specification of class Instruction has been given to you - open the file Instruction.java and look at it. This class is abstract, because it should not be instantiated. The method execute is also abstract, forcing every subclass to implement it.
 
 Every instruction has a label and an operation - that is exactly what is common to every instruction. Therefore, these properties are maintained in the base class of all instructions.
@@ -106,6 +109,6 @@ Every instruction has a label and an operation - that is exactly what is common 
 
  * After you finish writing a subclass for an SML (except for add), you have to add code to the method Translator.instruction to translate that instruction. The code for translating add should help you with this.
 
-Final requirement
------------------
+<h4>Final requirement</h4>
+
 Now take the switch statement that decides which type of instruction is created, modify the code so that it uses Java reflection to create the instances, i.e., remove the explicit calls to the subclasses. This will enable the SML language to be extended without having to modify the original code.
