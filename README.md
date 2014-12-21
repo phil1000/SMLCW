@@ -19,17 +19,17 @@ The goal of this assignment is to give you practice with subclasses and existing
 
 You will write an interpreter for a simple machine language | SML. The general form of a machine language instruction is
 
-label instruction register-list
+'label' 'instruction' 'register-list'
 
 where
 
- label is the label for the line.
+ *label* is the label for the line.
  Other instructions might \jump" to that label.
 
- instruction is the actual instruction.
+ *instruction* is the actual instruction.
  In SML, there are instructions for adding, multiplying and so on, for storing and retrieving integers, and for conditionally branching to other labels (like an if statement).
 
- register-list is the list of registers that the instruction manipulates.
+ *register-list* is the list of registers that the instruction manipulates.
  Registers are simple, integer, storage areas in computer memory, much like variables.
  In SML, there are 32 registers, numbered 0, 1, . . . , 31.
 
