@@ -1,7 +1,7 @@
 <h2>OODP Assignment 2 - Simple Machine Language Interpreter</h2>
 
 
-This was the 3rd of 4 programming courseworks (Mar/April 2014) as part of a conversion masters in Computer Science at Birkbeck College London.
+This was the 3rd of 4 programming courseworks (Feb/April 2014) as part of a conversion masters in Computer Science at Birkbeck College London.
 <br/>This was a pair programming exercise: Shahin Zibaee & Phil Moura. 
 <br/>Phil tackled the hardest parts of the task, including the Java reflection.
 <br/><br/>The coursework requirements are shown here, (cut & pasted from the original document):
