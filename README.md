@@ -19,7 +19,7 @@ The goal of this assignment is to give you practice with subclasses and existing
 
 You will write an interpreter for a simple machine language | SML. The general form of a machine language instruction is
 
-''label'' '''instruction''' --register-list--
+|label| |instruction| |register-list|
 
 where
 
